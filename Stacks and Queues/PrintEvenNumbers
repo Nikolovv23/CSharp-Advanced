@@ -1,0 +1,28 @@
+// Create a program that:
+// •	Reads an array of integers and adds them to a queue.
+// •	Prints the even numbers separated by ", ".
+
+// Input
+// 1 2 3 4 5 6
+
+namespace PrintEvenNumbers
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Queue<string> numbers = new Queue<string>(Console.ReadLine().Split(" "));
+            Queue<int> output = new Queue<int>();
+
+            while (numbers.Count > 0)
+            {
+                int number = int.Parse(numbers.Dequeue());
+                if (number % 2 == 0)
+                {
+                    output.Enqueue(number);
+                }
+            }
+            Console.WriteLine(string.Join(", ", output));
+        }
+    }
+}
