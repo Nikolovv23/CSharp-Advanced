@@ -1,0 +1,38 @@
+// We are given an arithmetic expression with brackets. Scan through the string and extract each sub-expression.
+// Print the result back at the terminal.
+ 
+//     Input:
+// 1 + (2 - (2 + 3) * 4 / (3 + 1)) * 5
+//     Output:
+// (2 + 3)
+// (3 + 1)
+// (2 - (2 + 3) * 4 / (3 + 1))
+
+
+namespace MatchingBrackets
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            string expression = Console.ReadLine();
+            Stack<int> openBracket = new Stack<int>();
+
+            for (int i = 0; i < expression.Length; i++)
+            {
+                if (expression[i] == '(')
+                {
+                    openBracket.Push(i);
+                }
+                if (expression[i] == ')')
+                {
+                    int start = openBracket.Pop();
+                    int end = i + 1;
+                    string substring = expression.Substring(start , end-start);
+                    Console.WriteLine(substring);
+                }
+            }
+        }
+    }
+}
