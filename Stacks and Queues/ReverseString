@@ -1,0 +1,28 @@
+//Create a program that:
+//•	Reads an input string
+//•	Reverses it backwards (letter by latter, from the last to the first) using a Stack< T >
+//•	Prints the result back at the console
+
+//    Input:	            Output:
+//    I Love C#        	#C evoL I
+
+namespace ReverseString
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Stack<char> reversedText = new Stack<char>();
+
+            string inputText = Console.ReadLine();
+            foreach (var item in inputText)
+            {
+                reversedText.Push(item);
+            }
+            while (reversedText.Count != 0) 
+            {
+                Console.Write(reversedText.Pop());
+            }
+        }
+    }
+}
