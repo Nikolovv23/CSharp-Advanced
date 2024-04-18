@@ -1,0 +1,43 @@
+// Create a simple calculator that can evaluate simple expressions with only addition and subtraction. There will not be any parentheses.
+// Numbers and operations are space-separated.
+// Solve the problem using a Stack.
+
+// Input:                       Output:
+// 2 + 5 + 10 - 2 - 1           14
+
+
+namespace SimpleCalculator
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List <string> input = Console.ReadLine().Split().ToList ();
+            Stack<string> stack = new Stack<string>();
+
+            for (int i = input.Count - 1; i >= 0; i --)
+            {
+                stack.Push(input[i].ToString());
+            }
+            while (stack.Count > 0)
+            {
+                int firstNumber = int.Parse(stack.Pop());
+                string sign = stack.Pop();
+                int secondNumber = int.Parse(stack.Pop());
+                int sum = default;
+                switch (sign)
+                {
+                    case "+": sum = firstNumber + secondNumber; break;
+                    case "-": sum = firstNumber - secondNumber; break;
+                }
+                stack.Push(sum.ToString());
+
+                if (stack.Count == 1)
+                {
+                    Console.WriteLine(sum);
+                    break;
+                }
+            }
+        }
+    }
+}
