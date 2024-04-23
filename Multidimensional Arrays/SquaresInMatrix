@@ -1,0 +1,53 @@
+// Find the count of 2 x 2 squares of equal chars in a matrix.
+// Input
+// •	On the first line, you are given the integers rows and cols – the matrix's dimensions.
+// •	Matrix characters come at the next rows lines (space separated).
+// Output
+// •	Print the number of all the squares matrixes you have found.
+
+// Input           	Output    	
+// 3 4                 2          
+// A B B D
+// E B B B
+// I J B B
+
+
+namespace SquaresInMatrix
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int rows = input[0];
+            int cols = input[1];
+            string[,] matrix = ReadMatrix(rows, cols, " ");
+            int theSameSquaresCounter = 0;
+            for (int row = 0; row < matrix.GetLength(0) - 1; row++)
+            {
+                for (int col = 0; col < matrix.GetLength(1) - 1; col++)
+                {
+                    string pattern = matrix[row, col];
+                    if (pattern == matrix[row, col + 1] && pattern == matrix[row + 1, col] && pattern== matrix[row + 1, col + 1])
+                    {
+                        theSameSquaresCounter++;
+                    }
+                }
+            }
+            Console.WriteLine(theSameSquaresCounter);
+        }
+        static string[,] ReadMatrix (int rows, int cols, string separator )
+        {
+            string[,] matrix = new string[rows, cols];
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                string[] rowArray = Console.ReadLine().Split(separator).ToArray();
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row, col] = rowArray[col];
+                }
+            }
+            return matrix;
+        }
+    }
+}
