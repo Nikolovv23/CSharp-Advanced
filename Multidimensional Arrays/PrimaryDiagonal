@@ -1,0 +1,53 @@
+// Create a program that finds the sum of elements from the matrix’s primary diagonal.
+
+//     Input:         Output:          Explenation:
+// 3                  4                11 + 5  - 12 = 4
+// 11 2 4
+// 4 5 6
+// 10 8 -12
+
+namespace PrimaryDiagonal
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //  int[] input = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();   
+            //  int rows = input[0];
+            //  int cols = input[1];
+            int number = int.Parse(Console.ReadLine());
+            int rows = number;
+            int cols = rows;
+            int[,] matrix = ReadMatrix(rows, cols, " ");
+
+            int sum = 0;
+
+            for (int i = 0; i < cols; i++)
+            {
+                for (int t = 0; t < rows; t++)
+                {
+                    if (i == t)
+                    {
+                        sum += matrix[i, t];
+                    }
+                }
+            }
+            Console.WriteLine(sum);
+
+            static int[,] ReadMatrix(int rows, int cols, string separator)
+            {
+                int[,] matrix = new int[rows, cols];
+                for (int row = 0; row < matrix.GetLength(0); row++)
+                {
+                    int[] rowArray = Console.ReadLine().Split(separator).Select(int.Parse).ToArray();
+
+                    for (int col = 0; col < matrix.GetLength(1); col++)
+                    {
+                        matrix[row, col] = rowArray[col];
+                    }
+                }
+                return matrix;
+            }
+        }
+    }
+}
