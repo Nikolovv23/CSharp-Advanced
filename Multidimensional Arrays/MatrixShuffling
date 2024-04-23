@@ -1,0 +1,107 @@
+// Write a program that reads a string matrix from the console and performs certain operations with its elements. User input is provided in a similar way as in the problems
+// above – first, you read the dimensions and then the data. 
+// Your program should then receive commands in the format: "swap row1 col1 row2 col2" where row1, col1, row2, col2 are coordinates in the matrix. 
+// For a command to be valid, it should start with the "swap" keyword along with four valid coordinates (no more, no less). You should swap the values at the given 
+// coordinates (cell [row1, col1] with cell[row2, col2]) and print the matrix at each step (thus you'll be able to check if the operation was performed correctly). 
+// If the command is not valid (doesn't contain the keyword "swap", has fewer or more coordinates entered or the given coordinates do not exist), print "Invalid input!"
+// and move on to the next command. Your program should finish when the string "END" is entered.
+
+//     Input:
+// 2 3
+// 1 2 3
+// 4 5 6
+// swap 0 0 1 1
+// swap 10 9 8 7
+// swap 0 1 1 0
+// END
+
+//     Output:
+// 5 2 3
+// 4 1 6
+// Invalid input!
+// 5 4 3
+// 2 1 6
+
+
+namespace MatrixShuffling
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] input = Console.ReadLine()
+                .Split(" ",StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = input[0];
+            int cols = input[1];
+            string[,] matrix = ReadMatrix(rows, cols, " ");
+            
+            string command = default;
+            while ((command = Console.ReadLine()) != "END")
+            {
+                string[] coordinates = command
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+
+                if (coordinates[0] != "swap")
+                {
+                    Console.WriteLine("Invalid input!");
+                    continue;
+                }
+                if (coordinates.Count() != 5)
+                {
+                    Console.WriteLine("Invalid input!");
+                    continue;
+                }
+                int currentRow1 = int.Parse(coordinates[1]);
+                int currentCol1 = int.Parse(coordinates[2]);
+                int currentRow2 = int.Parse(coordinates[3]);
+                int currentCol2 = int.Parse(coordinates[4]);
+                if (IsValidSwap(matrix, currentRow1, currentCol1, currentRow2, currentCol2))
+                {
+                    string temp = matrix[currentRow1, currentCol1];
+                    matrix[currentRow1,currentCol1] = matrix[currentRow2, currentCol2];
+                    matrix[currentRow2, currentCol2] = temp;
+
+                    for (int row = 0; row < matrix.GetLength(0); row++)
+                    {
+                        for (int col = 0; col< matrix.GetLength(1); col++)
+                        {
+                            Console.Write($"{matrix[row,col]} ");
+                        }
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                }
+            }
+        }
+
+        private static bool IsValidSwap(string[,] matrix, int currentRow1 , int currentCol1, int currentRow2, int currentCol2)
+        {
+            return currentRow1 >= 0 && currentRow1 <matrix.GetLength(0) &&
+                currentCol1 >= 0 && currentCol1 < matrix.GetLength(1) &&
+                currentRow2 >= 0 && currentRow2 < matrix.GetLength(0) &&
+                currentCol2 >= 0 && currentCol2 < matrix.GetLength(1);
+        }
+
+        static string[,] ReadMatrix (int rows, int cols, string separator )
+        {
+            string[,] matrix = new string[rows, cols];
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                string[] rowArray = Console.ReadLine()
+                    .Split(separator,StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row, col] = rowArray[col];
+                }
+            }
+            return matrix;
+        }
+    }
+}
