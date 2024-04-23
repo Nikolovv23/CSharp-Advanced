@@ -1,0 +1,101 @@
+// Chess is the oldest game, but it is still popular these days. For this task we will use only one chess piece – the Knight. 
+// The knight moves to the nearest square, but not on the same row, column or diagonal. (This can be thought of as moving two squares horizontally, 
+// then one square vertically, or moving one square horizontally, then two squares vertically— i.e. in an "L" pattern.) 
+// The knight game is played on a board with dimensions N x N and a lot of chess knights 0 <= K <= N2. 
+// You will receive a board with K for knights and '0' for empty cells. Your task is to remove a minimum of the knights, so there will be no knights
+// left that can attack another knight. 
+// Input
+// •	On the first line, you will receive the N side of the board.
+// •	On the next N lines, you will receive strings with Ks and 0s.
+// Output
+// •	Print a single integer with the minimum number of knights that needs to be removed.
+
+// Input:          Output:
+// 8               12
+// 0K0KKK00
+// 0K00KKKK
+// 00K0000K
+// KKKKKK0K
+// K0K0000K
+// KK00000K
+// 00K0K000
+// 000K00KK
+
+
+namespace KnightGame
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int size = int.Parse(Console.ReadLine());
+            if (size < 3)
+            {
+                Console.WriteLine($"0");
+                return;
+            }
+            size += 4;
+            string[][] board = new string[size][];
+            int maxHits = 1, maxRow = 0, maxCol = 0, count = 0;
+            board[0] = (new String('0', size)).Select(c => c.ToString()).ToArray();
+            board[1] = (new String('0', size)).Select(c => c.ToString()).ToArray();
+            board[size - 1] = (new String('0', size)).Select(c => c.ToString()).ToArray();
+            board[size - 2] = (new String('0', size)).Select(c => c.ToString()).ToArray();
+
+            for (int row = 2; row < size - 2; row++)
+            {
+                string line = "00" + Console.ReadLine() + "00";
+                board[row] = line.ToCharArray().Select(c => c.ToString()).ToArray();
+            }
+            while (maxHits > 0)
+            {
+                maxHits = 0;
+                for (int row = 2; row < size - 2; row++)
+                {
+                    for (int col = 2; col < size - 2; col++)
+                    {
+                        int hits = 0;
+                        if (board[row][col] == "K")
+                        {
+                            hits = Hits(row, col, board);
+                            if (hits > maxHits)
+                            {
+                                maxHits = hits;
+                                maxRow = row;
+                                maxCol = col;
+                            }
+                        }
+                    }
+                }
+                if (maxHits > 0)
+                {
+                    board[maxRow][maxCol] = "0";
+                    count++;
+                }
+            }
+            Console.WriteLine($"{count}");
+            static int Hits(int row, int col, string[][] board)
+            {
+                string k = board[row][col];
+                int hits = 0;
+                if (board[row - 2][col - 1] == k)
+                    hits++;
+                if (board[row - 2][col + 1] == k)
+                    hits++;
+                if (board[row + 2][col - 1] == k)
+                    hits++;
+                if (board[row + 2][col + 1] == k)
+                    hits++;
+                if (board[row - 1][col - 2] == k)
+                    hits++;
+                if (board[row - 1][col + 2] == k)
+                    hits++;
+                if (board[row + 1][col - 2] == k)
+                    hits++;
+                if (board[row + 1][col + 2] == k)
+                    hits++;
+                return hits;
+            }
+        }
+    }
+}
