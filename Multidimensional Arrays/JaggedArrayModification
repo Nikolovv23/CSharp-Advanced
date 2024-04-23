@@ -1,0 +1,69 @@
+// Create a program that reads a matrix from the console. On the first line, you will get matrix rows. On the next rows lines, you will get elements for each column separated with space. You will be receiving commands in the following format:
+// •	Add {row} { col}
+// { value} – Increase the number at the given coordinates with the value.
+// •	Subtract {row} { col}
+// { value} – Decrease the number at the given coordinates by the value.
+// Coordinates might be invalid. In this case, you should print "Invalid coordinates". When you receive "END" you should print the matrix and stop the program.
+
+// Input:
+// 3
+// 1 2 3
+// 4 5 6 7
+// 8 9 10
+// Add 0 0 5
+// Subtract 1 2 2
+// Subtract 1 4 7
+// END
+ 
+// Output:
+// Invalid coordinates
+// 6 2 3
+// 4 5 4 7
+// 8 9 10
+
+
+namespace JaggedArrayModification
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int rows = int.Parse(Console.ReadLine());
+            int[][] matrix = new int[rows][];
+            for (int i = 0; i < rows; i++)
+            {
+                matrix[i] = Console.ReadLine().Split(" ").Select(int.Parse).ToArray();
+            }
+            while (true)
+            {
+                string[] input = Console.ReadLine().Split(" ").ToArray();
+                string command = input[0];
+                if (command == "END")
+                {
+                    for (int i = 0; i < rows; i ++)
+                    {
+                        Console.Write(string.Join(" ", matrix[i]));
+                        Console.WriteLine();
+                    }
+                    return;
+                }
+                int row = int.Parse(input[1]);
+                int col = int.Parse(input[2]);
+                if (row > rows - 1 || row < 0 || col < 0 || col > matrix[row].Length - 1)
+                {
+                    Console.WriteLine("Invalid coordinates");
+                    continue;
+                }
+                int number = int.Parse(input[3]);
+                if (command == "Add")
+                {
+                    matrix[row][col] += number;
+                }
+                else
+                {
+                    matrix[row][col] -= number;
+                }
+            }
+        }
+    }
+}
