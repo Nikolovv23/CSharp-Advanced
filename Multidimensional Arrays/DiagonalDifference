@@ -1,0 +1,93 @@
+// Create a program that finds the difference between the sums of the square matrix diagonals (absolute value).
+
+// Input	                           Output	                                            Comments
+// 3                                15                                                 Primary diagonal: sum = 11 + 5 + (-12) = 4
+// 11 2 4                                                                              Secondary diagonal: sum = 4 + 5 + 10 = 19
+// 4 5 6                                                                               Difference: |4 - 19| = 15
+// 10 8 -12		
+
+
+namespace DiagonalDifference
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int rows = int.Parse(Console.ReadLine());
+            int cols = rows;
+            int[,] matrix = ReadMatrix(rows, cols, " ");
+
+            int counter = 0;
+            int sum = 0;
+            string task = default;
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    if (row == col)
+                    {
+                        sum += matrix[row, col];
+                        if (matrix[row, col] > 0)
+                        {
+                            if (row == matrix.GetLength(0) - 1)
+                            {
+                                task += matrix[row, col].ToString();
+                                break;
+                            }
+                            task += matrix[row, col].ToString() + " + ";
+                        }
+                        else
+                        {
+                            if (row == matrix.GetLength(0) - 1)
+                            {
+                                task += $"({matrix[row, col].ToString()})";
+                                break;
+                            }
+                            task += $"({matrix[row, col].ToString()}) + "; 
+                        }
+
+                    }
+                }
+            }
+            int secondSum = 0;
+            task = default;
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                int col = matrix.GetLength(1) - 1 - row;
+                    secondSum += matrix[row, col];
+                    if (matrix[row, col] > 0)
+                    {
+                        if (row == matrix.GetLength(0) - 1)
+                        {
+                            task += matrix[row, col].ToString();
+                            break;
+                        }
+                        task += matrix[row, col].ToString() + " + ";
+                    }
+                    else
+                    {
+                        if (row == matrix.GetLength(0) - 1)
+                        {
+                            task += $"({matrix[row, col].ToString()})";
+                            break;
+                        }
+                        task += $"({matrix[row, col].ToString()}) + ";
+                    }
+            }
+            Console.WriteLine(Math.Abs(sum - secondSum));
+        }
+        static int[,] ReadMatrix (int rows, int cols, string separator )
+        {
+            int[,] matrix = new int[rows, cols];
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                int[] rowArray = Console.ReadLine().Split(separator).Select(int.Parse).ToArray();
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row, col] = rowArray[col];
+                }
+            }
+            return matrix;
+        }
+    }
+}
