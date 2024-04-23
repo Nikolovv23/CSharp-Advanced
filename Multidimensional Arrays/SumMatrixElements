@@ -34,9 +34,9 @@ namespace SumMatrixElements
             Console.WriteLine(cols);
             Console.WriteLine(sum);
 
-            static int [,] ReadMatrix(int rows, int cows,string separator)
+            static int [,] ReadMatrix(int rows, int cols,string separator)
             {
-                int[,] matrix = new int[rows, cows];
+                int[,] matrix = new int[rows, cols];
                 for (int row = 0; row < matrix.GetLength(0); row++)
                 {
                     int[] rowArray = Console.ReadLine().Split(separator).Select(int.Parse).ToArray();
