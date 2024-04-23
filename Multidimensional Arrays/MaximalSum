@@ -1,0 +1,88 @@
+// Create a program that reads a rectangular integer matrix of size N x M and finds in it the square 3 x 3 that has a maximal sum of its elements.
+// Input
+// •	On the first line, you will receive the rows N and columns M. On the next N lines, you will receive each row with its columns.
+// Output
+// •	Print the elements of the 3 x 3 square as a matrix, along with their sum.
+
+// Input:
+// 4 5
+// 1 5 5 2 4
+// 2 1 4 14 3
+// 3 7 11 2 8
+// 4 8 12 16 4
+
+// Output:
+// Sum = 75
+// 1 4 14
+// 7 11 2
+// 8 12 16
+
+namespace MaximalSum
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] input = Console.ReadLine()
+                .Split(" ",StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = input[0];
+            int cols = input[1];
+            int[,] matrix = ReadMatrix(rows, cols, " ");
+            int sum = 0;
+            int maxSum = int.MinValue;
+            int startRow = 0;
+            int startCol = 0;
+            if (cols < 4 && rows < 4)
+            {
+                return;
+            }    
+            for (int row = 0; row < matrix.GetLength(0) - 2; row++)
+            {
+                for (int col = 0; col < matrix.GetLength(1) - 2; col++)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j ++)
+                        {
+                            sum += matrix[row + i, col + j];
+                        }
+                    }
+                    if (sum > maxSum)
+                    {
+                        maxSum = sum;
+                        startRow = row;
+                        startCol = col; 
+                    }
+                    sum = 0;
+                }
+            }
+            Console.WriteLine($"Sum = {maxSum}");
+            for (int row = startRow; row < startRow + 3; row++)
+            {
+                for (int col = startCol; col < startCol + 3; col++)
+                {
+                    Console.Write($"{matrix[row, col]} ");
+                }
+                Console.WriteLine();
+            }
+        }
+        static int[,] ReadMatrix (int rows, int cols, string separator )
+        {
+            int[,] matrix = new int[rows, cols];
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                int[] rowArray = Console.ReadLine()
+                    .Split(separator,StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToArray();
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row, col] = rowArray[col];
+                }
+            }
+            return matrix;
+        }
+    }
+}
