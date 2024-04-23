@@ -1,0 +1,66 @@
+// Create a program that reads N, a number representing rows and cols of a matrix. On the next N lines, you will receive rows of the matrix. 
+// Each row consists of ASCII characters. After that, you will receive a symbol. Find the first occurrence of that symbol in the matrix and 
+// print its position in the format: "({row}, {col})".If there is no such symbol, print an error message "{symbol} does not occur in the matrix".
+
+//     Input:               Output:
+// 3                        (2, 1)
+// ABC
+// DEF
+// X!@
+// !
+
+
+namespace SymbolInMatrix
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //  int[] input = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();   
+            //  int rows = input[0];
+            //  int cols = input[1];
+            int number = int.Parse(Console.ReadLine());
+            int rows = number;
+            int cols = rows;
+            char[,] matrix = ReadMatrix(rows, cols, "");
+            char symbol = char.Parse(Console.ReadLine());
+
+            bool isItContain = false;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                   if (matrix[row,col] == symbol)
+                   {
+                        Console.WriteLine($"({row}, {col})");
+                        isItContain = true;
+                   }
+                }    
+            }
+            if (!isItContain)
+            {
+                Console.WriteLine($"{symbol} does not occur in the matrix");
+            }
+
+            static char [,] ReadMatrix(int rows, int cols,string separator)
+            {
+                char[,] matrix = new char[rows, cols];
+                for (int row = 0; row < matrix.GetLength(0); row++)
+                {
+                    string text = Console.ReadLine();
+                    char[] charArray = new char[rows];
+                    for (int i = 0; i < cols; i++)
+                    {
+                        charArray[i] += text[i];
+                    }
+                    for (int col = 0; col < matrix.GetLength(1); col++)
+                    {
+                        matrix[row, col] = charArray[col];
+                    }
+                }
+                return matrix;
+            }
+        }
+    }
+}
