@@ -1,0 +1,47 @@
+// The Pascal’s triangle may be constructed in the following manner: in row 0 (the topmost row), there is a unique nonzero entry 1. Each entry of each subsequent row is constructed by adding the number above and to the left with the number above and to the right, treating blank entries as 0:
+ 
+// Write a program to print the Pascal’s triangle of given size n.
+ 
+//     Input:       Output:
+// 4                1
+//                  1 1
+//                  1 2 1
+//                  1 3 3 1
+
+
+namespace PascalTriangle
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int rows = int.Parse(Console.ReadLine());
+            long[][] pascal = new long[rows][];
+            pascal[0] = new long[1]{ 1 };
+            for (int row = 1; row < rows; row++)
+            {
+                pascal[row] = new long[row + 1];
+
+                for (int col = 0; col < pascal[row].Length; col++)
+                {
+                    if (col < pascal[row - 1].Length)
+                    {
+                        pascal[row][col] += pascal[row - 1][col];
+                    }
+                    if (col > 0)
+                    {
+                        pascal[row][col] += pascal[row - 1][col - 1];
+                    }
+                }
+            }
+            for (int row = 0; row < pascal.Length; row++)
+            {
+                for (int col = 0; col < pascal[row].Length; col++)
+                {
+                    Console.Write(pascal[row][col] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
