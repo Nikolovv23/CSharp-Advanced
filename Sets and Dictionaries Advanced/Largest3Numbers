@@ -1,0 +1,18 @@
+// Read a list of integers and print the largest 3 of them. If there are less than 3, print all of them.
+
+namespace Largest3Numbers
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> numbers = Console.ReadLine().
+                Split()
+                .Select(int.Parse)
+                .OrderByDescending(num => num)
+                .Take(3)
+                .ToList();
+            Console.WriteLine(string.Join(" ", numbers));
+        }
+    }
+}
