@@ -1,0 +1,44 @@
+// Create a program that reads some text from the console and counts the occurrences of each character in it. Print the results in alphabetical (lexicographical) order. 
+
+//     Input: SoftUni rocks
+//     Output:
+//  : 1 time / s
+// S: 1 time / s
+// U: 1 time / s
+// c: 1 time / s
+// f: 1 time / s
+// i: 1 time / s
+// k: 1 time / s
+// n: 1 time / s
+// o: 2 time / s
+// r: 1 time / s
+// s: 1 time / s
+// t: 1 time / s
+
+
+namespace CountSymbols
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            char[] input = Console.ReadLine().ToCharArray();
+            SortedDictionary<char , int> symbolCounter = new SortedDictionary<char , int>();
+            foreach (char inputChar in input)
+            {
+                if (symbolCounter.ContainsKey(inputChar))
+                {
+                    symbolCounter[inputChar]++;
+                }
+                else
+                {
+                    symbolCounter.Add(inputChar, 1);
+                }
+            }
+            foreach (var kvp in symbolCounter)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value} time/s");
+            }
+        }
+    }
+}
