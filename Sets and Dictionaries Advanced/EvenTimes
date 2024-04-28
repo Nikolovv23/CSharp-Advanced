@@ -1,0 +1,41 @@
+// Create a program that prints a number from a collection, which appears an even number of times in it. On the first line, you will be given n – the count of integers you will
+// receive. On the next n lines, you will be receiving the numbers. It is guaranteed that only one of them appears an even number of times.
+// Your task is to find that number and print it in the end. 
+ 
+//     Input
+// 3
+// 2
+// -1
+// 2
+
+
+namespace EvenTimes
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int counter = int.Parse(Console.ReadLine());
+            Dictionary <int , int> numbersList = new Dictionary<int , int>();
+            for (int i = 0; i < counter; i++)
+            {
+               int number = int.Parse(Console.ReadLine());
+                if (numbersList.ContainsKey(number))
+                {
+                    numbersList[number]++;
+                }
+                else
+                {
+                    numbersList.Add(number, 1);
+                }
+            }
+            foreach (KeyValuePair<int,int> kvp in numbersList)
+            {
+                if (kvp.Value % 2 == 0)
+                {
+                    Console.WriteLine(kvp.Key);
+                }
+            }
+        }
+    }
+}
