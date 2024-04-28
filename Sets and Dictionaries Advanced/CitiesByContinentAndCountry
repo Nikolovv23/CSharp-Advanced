@@ -1,0 +1,61 @@
+// Create a program that reads continents, countries and their cities put them in a nested dictionary and prints them
+
+//     Input:
+// 9
+// Europe Bulgaria Sofia
+// Asia China Beijing
+// Asia Japan Tokyo
+// Europe Poland Warsaw
+// Europe Germany Berlin
+// Europe Poland Poznan
+// Europe Bulgaria Plovdiv
+// Africa Nigeria Abuja
+// Asia China Shanghai
+//     Output:
+// Europe:
+//   Bulgaria->Sofia, Plovdiv
+//   Poland -> Warsaw, Poznan
+//   Germany -> Berlin
+// Asia:
+//   China->Beijing, Shanghai
+//   Japan -> Tokyo
+// Africa:
+//   Nigeria->Abuja
+
+
+namespace CitiesByContinentAndCountry
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int counter = int.Parse(Console.ReadLine());
+            Dictionary<string, Dictionary<string, List<string>>> map= new Dictionary<string, Dictionary<string, List<string>>>();
+            for (int i = 0; i < counter; i++)
+            {
+                string[] input = Console.ReadLine().Split().ToArray();
+                string continent = input[0];
+                string country = input[1];
+                string city = input[2];
+                if (!map.ContainsKey(continent) )
+                {
+                    map.Add(continent, new Dictionary<string, List<string>>());
+                }
+                if (!map[continent].ContainsKey(country))
+                {
+                    map[continent].Add(country, new List<string>());
+                }
+                map[continent][country].Add(city);
+             
+            }
+            foreach (var continent in map)
+            {
+                Console.WriteLine($"{continent.Key}:");
+                foreach (var country in continent.Value)
+                {
+                    Console.WriteLine($"{country.Key} -> {string.Join(", ",country.Value)}");
+                }
+            }
+        }
+    }
+}
