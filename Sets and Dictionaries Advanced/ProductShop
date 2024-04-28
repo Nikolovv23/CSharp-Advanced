@@ -1,0 +1,61 @@
+// Create a program that prints information about food shops in Sofia and the products they store. Until the "Revision" command is received, you will be receiving input in the format: "{shop}, {product}, {price}".Keep in mind that if you receive a shop you already have received, you must collect its product information.
+// Your output must be ordered by shop name and must be in the format:
+// "{shop}->
+// Product: { product}, Price: { price}
+// "
+// Note: The price should not be rounded or formatted.
+
+//     Input:
+// lidl, juice, 2.30
+// fantastico, apple, 1.20
+// kaufland, banana, 1.10
+// fantastico, grape, 2.20
+// Revision
+//     Output:
+// fantastico->
+// Product: apple, Price: 1.2
+// Product: grape, Price: 2.2
+// kaufland->
+// Product: banana, Price: 1.1
+// lidl->
+// Product: juice, Price: 2.3
+
+
+namespace ProductShop
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string command = default;
+            Dictionary<string, Dictionary<string, double>> stores= new Dictionary<string, Dictionary<string, double>>();
+            while ((command = Console.ReadLine()) != "Revision")
+            {
+                string[] input = command.Split(", ").ToArray();
+                string storeName = input[0];
+                string product = input[1];
+                double productPrice = double.Parse(input[2]);
+                if (!stores.ContainsKey(storeName) )
+                {
+                    stores.Add(storeName, new Dictionary<string, double>());
+                }
+                if (!stores[storeName].ContainsKey(product))
+                {
+                    stores[storeName].Add(product, 0);
+                }
+                stores[storeName][product] = productPrice;
+             
+            }
+            stores = stores.OrderBy(s => s.Key).ToDictionary(s => s.Key, s=> s.Value);
+            foreach (var store in stores)
+            {
+                Console.WriteLine($"{store.Key}->");
+                foreach (var product in store.Value)
+                {
+                    //Product: apple, Price: 1.2
+                    Console.WriteLine($"Product: {product.Key}, Price: {product.Value}");
+                }
+            }
+        }
+    }
+}
