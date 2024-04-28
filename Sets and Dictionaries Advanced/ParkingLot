@@ -1,0 +1,59 @@
+// Create a program that:
+// •	Records a car number for every car that enters the parking lot.
+// •	Removes a car number when the car leaves the parking lot.
+// The input will be a string in the format: "direction, carNumber".You will be receiving commands until the "END" command is given.
+// Print the car numbers of the cars, which are still in the parking lot:
+
+// Input:
+// IN, CA2844AA
+// IN, CA1234TA
+// OUT, CA2844AA
+// IN, CA9999TT
+// IN, CA2866HI
+// OUT, CA1234TA
+// IN, CA2844AA
+// OUT, CA2866HI
+// IN, CA9876HH
+// IN, CA2822UU
+// END
+
+// Output:
+// CA9999TT
+// CA2844AA
+// CA9876HH
+// CA2822UU
+
+
+namespace ParkingLot
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = default;
+            HashSet<string> garage = new HashSet<string>();
+            while ((input = Console.ReadLine()) != "END")
+            {
+                string[] carInformation = input.Split(", ").ToArray();
+                string command = carInformation[0];
+                string carNumber = carInformation[1];
+                if (command == "IN")
+                {
+                    garage.Add(carNumber);
+                }
+                else
+                {
+                    garage.Remove(carNumber);
+                }
+            }
+            if (garage.Count > 0)
+            {
+                Console.WriteLine(string.Join("\n", garage));
+            }
+            else
+            {
+                Console.WriteLine("Parking Lot is Empty");
+            }
+        }
+    }
+}
