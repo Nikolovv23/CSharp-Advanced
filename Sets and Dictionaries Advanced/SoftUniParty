@@ -1,0 +1,77 @@
+// There is a party in SoftUni.Many guests are invited and there are two types of them: VIP and Regular. When a guest comes, check if he/she exists in any of the two reservation lists.
+// All reservation numbers will be with the length of 8 chars.
+// All VIP numbers start with a digit.
+// First, you will be receiving the reservation numbers of the guests. You can also receive 2 possible commands:
+// •	"PARTY" – After this command, you will begin receiving the reservation numbers of the people, who came to the party.
+// •	"END" – The party is over and you have to stop the program and print the appropriate output.
+// In the end, print the count of the guests who didn't come to the party, and afterward, print their reservation numbers. the VIP guests must be first.
+
+// Input:              Output:
+// 7IK9Yo0h            2
+// 9NoBUajQ            7IK9Yo0h
+// Ce8vwPmE            tSzE5t0p
+// SVQXQCbc
+// tSzE5t0p
+// PARTY
+// 9NoBUajQ
+// Ce8vwPmE
+// SVQXQCbc
+// END
+
+
+namespace SoftUniParty
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = default;
+            HashSet<string> vipGuest = new HashSet<string>();
+            HashSet<string> guest = new HashSet<string>();
+            char[] numbers = new char[10] {'0','1','2','3','4','5','6','7','8','9'};
+            while ((input = Console.ReadLine()) != "PARTY")
+            {
+                if (input == "PARTY")
+                {
+                    if (numbers.Contains(input[0]))
+                    {
+                        vipGuest.Remove(input);
+                    }
+                    else
+                    {
+                        guest.Remove(input);
+                    }
+                    continue;
+                }
+                if (numbers.Contains(input[0]))
+                {
+                    vipGuest.Add(input);
+                }
+                else
+                {
+                    guest.Add(input);
+                }
+            }
+            while ((input = Console.ReadLine()) != "END")
+            {
+                    if (numbers.Contains(input[0]))
+                    {
+                        vipGuest.Remove(input);
+                    }
+                    else
+                    {
+                        guest.Remove(input);
+                    }
+            }
+            Console.WriteLine(vipGuest.Count + guest.Count);
+            if (vipGuest.Count > 0)
+            {
+                Console.WriteLine(string.Join("\n", vipGuest));
+            }
+            if (guest.Count > 0)
+            {
+                Console.WriteLine(string.Join("\n", guest));
+            }
+        }
+    }
+}
