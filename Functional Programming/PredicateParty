@@ -1,0 +1,91 @@
+// Ivan's parents are on a vacation for the holidays and he is planning an epic party at home. Unfortunately, his organizational skills are next to non-existent, 
+// so you are given the task to help him with the reservations.
+// On the first line, you receive a list of all the people that are coming. On the next lines, until you get the "Party!" command, you may be asked to double or 
+// remove all the people that apply to the given criteria. There are three different criteria: 
+// •	Everyone that has his name starting with a given string
+// •	Everyone that has a name ending with a given string
+// •	Everyone that has a name with a given length
+// Finally, print all the guests who are going to the party separated by ", " and then add the ending "are going to the party!". 
+// If no guests are going to the party print "Nobody is going to the party!". See the examples below:
+// 
+//  Input:
+// Peter Misha Stephen
+// Remove StartsWith P
+// Double Length 5
+// Party!
+// Output:
+// Misha, Misha, Stephen are going to the party!
+
+
+namespace PredicateParty
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> guests = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+            
+            while (true)
+            {
+                string[] command = Console.ReadLine()
+                                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                                .ToArray();
+                if (command[0] == "Party!") { break; }
+
+                Func<string, bool> predicate = GetPrerdicate(command[1], command[2]);
+
+                switch (command[0])
+                {
+                    case "Remove":
+                        guests = Remove(guests, predicate);
+                        break;
+                    case "Double": 
+                        guests = Double(guests, predicate);
+                        break;
+                }
+            }
+            Console.WriteLine(guests.Any()
+                 ? $"{string.Join(", ", guests)} are going to the party!"
+                 : "Nobody is going to the party!"
+                 );
+        }
+
+        private static Func<string, bool> GetPrerdicate(string command, string substring)
+        {
+            if (command == "StartsWith")
+            {
+                return s => s.StartsWith(substring);
+            }
+            else if (command == "EndsWith")
+            {
+                return s => s.EndsWith(substring);
+            }
+            else // command = "Lenght"
+            {
+                int lenght = int.Parse(substring);
+                return s => s.Length == lenght;
+            }
+        }
+
+        static List<string> Double(List<string> guestsList, Func<string, bool> predicate)
+        {
+            List<string> result = new List<string>();
+            foreach (string guest in guestsList)
+            {
+                if (predicate(guest))
+                {
+                    result.Add(guest);
+                }
+                result.Add(guest);
+            }
+            return result;
+        }
+        
+        static List<string> Remove(List<string> guestsList , Func<string,bool> predicate)
+        {
+            return guestsList.Where(guest => predicate(guest) == false).ToList();
+        }
+    }
+}
