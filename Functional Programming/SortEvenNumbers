@@ -1,0 +1,19 @@
+// Create a program that reads one line of integers separated by ", ". Then prints the even numbers of that sequence sorted in increasing order.
+
+namespace SortEvenNumbers
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] numbers = Console.ReadLine()
+                  .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+                  .Select(x => int.Parse(x))
+                  .Where(x => x % 2 == 0)
+                  .OrderBy(x => x)
+                  .ToArray();
+
+            Console.WriteLine(string.Join(", ", numbers));
+        }
+    }
+}
