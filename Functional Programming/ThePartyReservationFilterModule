@@ -1,0 +1,101 @@
+// You need to implement a filtering module to a party reservation software. First, the Party Reservation Filter Module (PRFM for short) has been passed a list with invitations.
+// Next, the PRFM receives a sequence of commands that specify whether you need to add or remove a given filter.
+// Each PRFM command is in the given format:
+// "{command;filter type;filter parameter}"
+// You can receive the following PRFM commands: 
+// •	"Add filter"
+// •	"Remove filter"
+// •	"Print"
+// The possible PRFM filter types are: 
+// •	"Starts with"
+// •	"Ends with"
+// •	"Length"
+// •	"Contains"
+// All PRFM filter parameters will be a string (or an integer only for the "Length" filter). Each command will be valid e.g. you won't be asked to remove a non-existent filter.
+// The input will end with a "Print" command, after which you should print all the party-goers that are left after the filtration. See the examples below:
+
+//     Input                                           Output:
+// Peter Misha Slav                                    Slav
+// Add filter; Starts with; P
+// Add filter; Starts with; M
+// Print
+
+
+namespace ThePartyReservationFilterModule
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> guests = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+            List <string> currentGuests = new List<string>();
+            currentGuests = guests.ToList();
+            
+            while (true)
+            {
+                string[] input = Console.ReadLine()
+                                .Split(";", StringSplitOptions.RemoveEmptyEntries)
+                                .ToArray();
+                string command = input[0];
+                if (command == "Print") { break; }
+                string filterType = input[1];
+                string filterParameter = input[2];
+
+                Func<string, bool> predicate = GetPrerdicate(filterType, filterParameter); 
+
+                switch (command)
+                {
+                    case "Remove filter":
+                        currentGuests = Add(guests,currentGuests, predicate);
+                        break;
+                    case "Add filter": 
+                        currentGuests = Remove(currentGuests, predicate);
+                        break;
+                }
+            }
+            Console.WriteLine(string.Join(" ", currentGuests));
+        }
+
+        private static Func<string, bool> GetPrerdicate(string filterType , string filterParameter)
+        {
+            if (filterType == "Starts with")
+            {
+                return s => s.StartsWith(filterParameter);
+            }
+            else if (filterType == "Ends with")
+            {
+                return s => s.EndsWith(filterParameter);
+            }
+            else if (filterType == "Contains")
+            {
+                return s => s.Contains(filterParameter);
+            }
+            else // command = "Lenght"
+            {
+                int lenght = int.Parse(filterParameter);
+                return s => s.Length == lenght;
+            }
+        }
+
+        static List<string> Add(List<string> guestsList, List<string> currentGuests, Func<string, bool> predicate)
+        {
+            foreach (string guest in guestsList)
+            {
+                if (predicate(guest))
+                {
+                    currentGuests.Add(guest);
+                }
+            }
+            return currentGuests;
+        }
+        
+        static List<string> Remove(List<string> guestsList , Func<string,bool> predicate)
+        {
+            List<string> result = new List< string>();
+            result = guestsList.Where(guest => predicate(guest) == false).ToList();
+            return result;
+        }
+    }
+}
