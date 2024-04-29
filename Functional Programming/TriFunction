@@ -1,0 +1,50 @@
+// Create a program that traverses a collection of names and returns the first name, whose sum of characters is equal to or larger than a given number N,
+// which will be given on the first line. Use a function that accepts another function as one of its parameters. Start by building a regular function to
+// hold the basic logic of the program. Something along the lines of Func<string, int, bool>. Afterward, create your main function which should accept the
+// first function as one of its parameters.
+//     Input:                        Output:
+// 350                               Mary
+// Rob Mary Paisley Spencer
+
+
+namespace TriFunction
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int filterSum = int.Parse(Console.ReadLine());
+            string[] names = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+            Dictionary<string, int> nameList = new();
+            foreach (string name in names)
+            {
+                int sum = 0;
+                foreach (char c in name)
+                {
+                    sum += c;
+                }
+                nameList.Add(name, sum);
+            }
+            Func<string, int, bool> predicate = (name, sum) =>
+            {
+                bool isItLarger = false;
+                if (sum >= filterSum)
+                {
+                    isItLarger = true;
+                }
+                return isItLarger;
+
+            };
+            foreach (var keyValuePair in nameList)
+            {
+                if (predicate(keyValuePair.Key, keyValuePair.Value))
+                {
+                    Console.WriteLine(keyValuePair.Key);
+                    return;
+                }
+            }
+        }
+    }
+}
