@@ -1,0 +1,17 @@
+// Create a program that reads a collection of names as strings from the console, appends "Sir" in front of every name and prints it back in the console. Use Action<T>.
+// Input: Eathan Lucas Noah Arthur
+
+namespace KnightsOfHonor
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] names = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+            Action<string> print = name => Console.WriteLine($"Sir {name}");
+            Array.ForEach(names, print);
+        }
+    }
+}
