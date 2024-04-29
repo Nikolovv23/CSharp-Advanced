@@ -1,0 +1,44 @@
+// Find all numbers in the range 1…N that are divisible by the numbers of a given sequence. On the first line, you will be given an integer N – which is the end of the range. 
+// On the second line, you will be given a sequence of integers which are the dividers. Use predicates/functions.
+//     Input:              Output:
+//     100                 20 40 60 80 100
+// 2 5 10 20
+
+
+namespace ListOfPredicates
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int upperLimit = int.Parse(Console.ReadLine());
+            int[] divisors = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            List<int> numbers = new List<int>();
+
+            for (int i = 1; i <= upperLimit; i++)
+            {
+                numbers.Add(i);
+            }
+
+            Func<int[], int, bool> predicate = (arr, i) =>
+            {
+                bool IsDivisible = true;
+                foreach (int divisor in divisors)
+                {
+                    if (i % divisor != 0)
+                    {
+                        IsDivisible = false;
+                    }
+                }
+                return IsDivisible;
+            };
+            var result = numbers
+                .Where(number => predicate(divisors,number))
+                .ToList();
+            Console.WriteLine(string.Join(" ",result));
+        }
+    }
+}
