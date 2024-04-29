@@ -1,0 +1,87 @@
+// Write a program that receives an integer N on the first line. On the next N lines, read pairs of "[name], [age]". Then read three lines:
+// •	Condition - "younger" (<) or "older" (>=)
+// •	Age threshold - integer
+// •	Format - "name", "age" or "name age"
+// Depending on the condition, print the correct pairs in the correct format. Don't use the built-in functionality from .NET. Create your own methods.
+
+// Input:          Output:
+// 5               Tomas
+// Lucas, 20       Simo
+// Tomas, 18
+// Mia, 29
+// Noah, 31
+// Simo, 16
+// younger
+// 20
+// name
+
+namespace FilterByAge
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int lines = int.Parse(Console.ReadLine());
+            Person[] people = new Person[lines];
+            for (int i = 0; i < lines; i++)
+            {
+                string[] input = Console.ReadLine()
+                    .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+                string name = input[0];
+                int age = int.Parse(input[1]);
+                people[i] = new Person { Name = name, Age = age };
+            }
+            string filter = Console.ReadLine(); // older or younger
+            int ageFilter = int.Parse(Console.ReadLine());
+            string format = Console.ReadLine();
+
+            Func<Person, bool> predicate = GetAgeCondition(filter, ageFilter);
+            Func<Person, string> formatter = GetFormatter(format);
+            PrintPeople(people, predicate, formatter);
+
+            static Func<Person, bool> GetAgeCondition(string filter, int ageFilter)
+            {
+                if (filter == "younger")
+                {
+                    return person => person.Age < ageFilter;
+                }
+                else if (filter == "older")
+                {
+                    return person => person.Age >= ageFilter;
+                }
+                return null;
+            }
+            static Func<Person, string> GetFormatter(string format)
+            {
+                if (format == "age")
+                {
+                    return person => $"{person.Age}";
+                }
+                else if (format == "name")
+                {
+                    return person => $"{person.Name}";
+                }
+                else
+                {
+                    return person => $"{person.Name} - {person.Age}";
+                }
+            }
+            static void PrintPeople(Person[] people, Func<Person, bool> predicate, Func<Person, string> formatter)
+            {
+                foreach (Person person in people)
+                {
+                    if (predicate(person))
+                    {
+                        Console.WriteLine(formatter(person));
+                    }
+                }
+            }
+        }
+        public class Person
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+    }
+}
