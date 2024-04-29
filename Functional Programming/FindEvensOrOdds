@@ -1,0 +1,42 @@
+// You are given a lower and an upper bound for a range of integer numbers. Then a command specifies if you need to list all even or odd numbers in the given range. 
+// Use Predicate<T>.
+//     Input:
+// 1 10
+// odd
+
+
+namespace FindEvensOrOdds
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] input = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+
+            int startNumber = input[0];
+            int endNumber = input[1];
+            string command = Console.ReadLine();
+
+            List<int> numbers = new List<int>();
+            for (int i = startNumber; i <= endNumber; i++)
+            {
+                numbers.Add(i);
+            }
+
+            Predicate<int> predicate = i => true;
+            if (command == "even")
+            {
+                predicate = i => i % 2 == 0;
+            }
+            else
+            {
+                predicate = i => i % 2 != 0;
+            }
+            var filteredNumbers = numbers.Where(new Func<int, bool>(predicate)).ToList();
+            Console.WriteLine(string.Join(" ", filteredNumbers));
+        }
+    }
+}
