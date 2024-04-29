@@ -1,0 +1,36 @@
+// Create a simple program that reads from the console a set of integers and prints back on the console the smallest number from the collection. Use Func<T, T>.
+//     Input:
+// 1 4 3 2 1 7 13
+
+
+namespace CustomMinFunction
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] numbers = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            if (numbers.Any() == false)
+            {
+                return;
+            }
+
+            Func<int[], int> takeMin = (int[] input) =>
+            {
+                int smallest = input[0];
+                for (int i = 1; i < input.Length; i++)
+                {
+                    if (smallest > input[i])
+                    {
+                        smallest = input[i];
+                    }
+                }
+                return smallest;
+            };
+            Console.WriteLine(takeMin(numbers));
+        }
+    }
+}
