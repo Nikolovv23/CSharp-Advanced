@@ -1,0 +1,22 @@
+// Create a program that reads one line of double prices separated by ", ". Print the prices with added VAT for all of them. Format them to 2 signs after the decimal point. 
+// The order of the prices must be the same.
+// VAT is equal to 20% of the price.
+
+namespace AddVAT
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            double[] numbers = Console.ReadLine()
+                .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(double.Parse)
+                .Select(x => x * 1.2)
+                .ToArray();
+            foreach (var number in numbers)
+            {
+                Console.WriteLine($"{number:f2}");
+            }
+        }
+    }
+}
